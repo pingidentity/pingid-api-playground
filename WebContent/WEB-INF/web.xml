@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" id="WebApp_ID" version="3.0">
+  <display-name>pingid-api-playground</display-name>
+  <welcome-file-list>
+    <welcome-file>index.jsp</welcome-file>
+  </welcome-file-list>
+  
+  <servlet>
+  	<display-name>PropertiesFileUploadServlet</display-name>
+  	<servlet-name>PropertiesFileUploadServlet</servlet-name>
+  	<servlet-class>com.pingidentity.developer.playground.pingid.PropertiesFileUploadServlet</servlet-class>
+  </servlet>
+  
+  <servlet>
+  	<display-name>APIHandlerServlet</display-name>
+  	<servlet-name>APIHandlerServlet</servlet-name>
+  	<servlet-class>com.pingidentity.developer.playground.pingid.APIHandlerServlet</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+  	<servlet-name>PropertiesFileUploadServlet</servlet-name>
+  	<url-pattern>/handle-upload-props</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+  	<servlet-name>APIHandlerServlet</servlet-name>
+  	<url-pattern>/api-handler</url-pattern>
+  </servlet-mapping>
+
+</web-app>
