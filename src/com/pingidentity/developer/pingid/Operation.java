@@ -350,7 +350,7 @@ public class Operation {
 		this.endpoint = "https://idpxnyl3m.pingidentity.com/pingid/rest/4/authonline/do";
 
 		JSONObject reqBody = new JSONObject();
-		reqBody.put("auth_type", authType);
+		reqBody.put("authType", authType);
 		reqBody.put("spAlias", application.getSpAlias());
 		reqBody.put("userName", this.user.getUserName());
 		reqBody.put("clientData", this.clientData);
@@ -367,8 +367,11 @@ public class Operation {
 		
 		sendRequest();
 		JSONObject response = parseResponse();
-		values.clear();
-		this.lastSessionId = (String)response.get("sessionId");
+
+		if (this.wasSuccessful) {
+			values.clear();
+			this.lastSessionId = (String)response.get("sessionId");
+		}
 	}
 
 	@SuppressWarnings("unchecked")
@@ -517,6 +520,12 @@ public class Operation {
 			this.errorMsg = (String)responsePayloadJSON.get("errorMsg");
 			this.uniqueMsgId = (String)responsePayloadJSON.get("uniqueMsgId");
 			this.clientData = (String)responsePayloadJSON.get("clientData");
+		} else {
+			this.errorId = 501;
+			this.errorMsg = "Could not parse JWS";
+			this.uniqueMsgId = "";
+			this.clientData = "";
+			this.wasSuccessful = false;
 		}
 
 		return responsePayloadJSON;

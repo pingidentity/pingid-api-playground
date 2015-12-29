@@ -75,10 +75,10 @@
 										<label for="select-auth-type">Auth Type:</label>
 										<select name="authType" class="form-control"
 											id="select-auth-type">
-											<option>api_confirm_auth</option>
-											<option>fingerprint_permissive_auth</option>
-											<option>fingerprint_restrictive_auth</option>
-											<option>fingerprint_hard_restrictive_auth</option>
+											<option>CONFIRM</option>
+											<option>FINGERPRINT_PERMISSIVE</option>
+											<option>FINGERPRINT_RESTRICTIVE</option>
+											<option>FINGERPRINT_HARD_RESTRICTIVE</option>
 										</select>
 										<label for="sp-name">Application Name:</label>
 										<input type="text" name="applicationName" class="form-control"
