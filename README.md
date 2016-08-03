@@ -22,9 +22,12 @@ Libraries & Dependencies:
  
 ### Installation
  
-1. Import the project into Eclipse or other Java IDE
-2. Add the appropriate libraries (see Libraries & Dependencies)
-3. Export as a WAR file and copy to a Java web application server (i.e. Tomcat)
+1. Install the latest Maven (https://maven.apache.org/)
+2. Open a command line and from {your_location}/pingid-api-playground/ execute 
+```
+mvn clean package
+```
+3. Copy target\pingid-api-playground.war to a Java web application server (i.e. Tomcat)
 
 
 ### Usage
