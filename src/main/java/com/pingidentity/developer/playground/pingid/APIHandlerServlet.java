@@ -19,6 +19,8 @@ import com.pingidentity.developer.pingid.User;
 
 public class APIHandlerServlet extends HttpServlet {
 
+	private static final long serialVersionUID = 1L;
+
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		String requestedOperation = request.getParameter("operation");
