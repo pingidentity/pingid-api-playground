@@ -2,7 +2,6 @@ package com.pingidentity.developer.playground.pingid;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.PrintWriter;
 import java.util.Properties;
 
 import javax.servlet.RequestDispatcher;
@@ -16,11 +15,11 @@ import org.apache.commons.fileupload.FileItemIterator;
 import org.apache.commons.fileupload.FileItemStream;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
-import org.apache.commons.fileupload.util.Streams;
-import org.apache.commons.io.IOUtils;
 
 
 public class PropertiesFileUploadServlet extends HttpServlet {
+
+	private static final long serialVersionUID = 1L;
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
@@ -32,7 +31,6 @@ public class PropertiesFileUploadServlet extends HttpServlet {
 
 				while(fii.hasNext()) {
 					FileItemStream item = fii.next();
-					String name = item.getFieldName();
 					InputStream is = item.openStream();
 					
 					if (item.isFormField()) {

@@ -14,10 +14,12 @@ import org.jose4j.base64url.Base64;
 import com.cedarsoftware.util.io.JsonWriter;
 import com.pingidentity.developer.pingid.Application;
 import com.pingidentity.developer.pingid.OfflinePairingMethod;
-import com.pingidentity.developer.pingid.User;
 import com.pingidentity.developer.pingid.Operation;
+import com.pingidentity.developer.pingid.User;
 
 public class APIHandlerServlet extends HttpServlet {
+
+	private static final long serialVersionUID = 1L;
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
@@ -28,13 +30,17 @@ public class APIHandlerServlet extends HttpServlet {
 		Operation operation = new Operation((String)session.getAttribute("pingid_org_alias"), (String)session.getAttribute("pingid_token"), (String)session.getAttribute("pingid_use_base64_key"));;
 		operation.setTargetUser(targetUsername);
 
+		String deviceIdObject = (String)request.getParameter("deviceId");
+		long deviceId =  deviceIdObject != null && !deviceIdObject.isEmpty() ? Long.parseLong(deviceIdObject) : 0;
+
 		switch (requestedOperation) {
 		
 		case "AuthenticateOnline":
 			Application app = new Application(request.getParameter("applicationName"));
 			app.setLogoUrl(request.getParameter("applicationIconUrl"));
 			app.setSpAlias("web");
-			operation.AuthenticateOnline(app, request.getParameter("authType"));
+			
+			operation.AuthenticateOnline(app, request.getParameter("authType"), deviceId);
 			request.setAttribute("lastSessionId", operation.getLastSessionId());
 			break;
 			
@@ -139,7 +145,7 @@ public class APIHandlerServlet extends HttpServlet {
 			break;
 			
 		case "UnpairDevice":
-			operation.UnpairDevice();
+			operation.UnpairDevice(deviceId);
 			break;
 			
 		default:

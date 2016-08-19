@@ -79,7 +79,11 @@
 											<option>FINGERPRINT_PERMISSIVE</option>
 											<option>FINGERPRINT_RESTRICTIVE</option>
 											<option>FINGERPRINT_HARD_RESTRICTIVE</option>
+											<option>OTP</option>
 										</select>
+										<label for="select-pingid-device">Device ID:</label>
+										<input type="text" name="deviceId" class="form-control"
+											id="select-pingid-device">
 										<label for="sp-name">Application Name:</label>
 										<input type="text" name="applicationName" class="form-control"
 											id="sp-name" placeholder="My Application">
@@ -330,6 +334,9 @@
 										<label for="select-pingid-user">Select a PingID User:</label>
 										<input type="text" name="username" class="form-control"
 											id="select-pingid-user" value="${username}">
+										<label for="select-pingid-device">Device ID:</label>
+                                        <input type="text" name="deviceId" class="form-control"
+                                            id="select-pingid-device">
 										<input type="hidden" name="operation" value="UnpairDevice">
 										<button type="submit" class="btn btn-default" ${pingid_org_alias != null ? "" : "disabled=\"disabled\""}>Unpair Device...</button>
 									</div>

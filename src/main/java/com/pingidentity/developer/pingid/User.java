@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
 
@@ -20,6 +21,7 @@ public class User {
 	
 	private String phoneNumber;
 	private DeviceDetails deviceDetails;
+	private List<DeviceDetails> devices;
 	
 	private Date lastAuthentication;
 	private Boolean enabled;
@@ -106,6 +108,7 @@ public class User {
 	public UserStatus getStatus() { return this.status; }
 	public Date getBypassedUntil(String spAlias) { return this.bypassInfo.get(spAlias); }
 	public Date getLastAuthentication() { return this.lastAuthentication; }
+    public List<DeviceDetails> getDevices() { return devices; }
 	
 	public void setUserName(String userName) { this.userName = userName; }
 	public void setFirstName(String firstName) { this.fName = firstName; }
@@ -114,6 +117,7 @@ public class User {
 	public void setPhoneNumber(String phoneNumber) { this.phoneNumber = phoneNumber; }
 	public void setRole(UserRole role) { this.role = role; }
 	public void setDeviceDetails(DeviceDetails deviceDetails) { this.deviceDetails = deviceDetails; }
+    public void setDevices(List<DeviceDetails> devices) { this.devices = devices; }
 	
 	@SuppressWarnings("unused")
 	private Date parseDate(String dateToParse) {

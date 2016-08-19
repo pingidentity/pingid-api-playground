@@ -17,6 +17,12 @@
   	<servlet-class>com.pingidentity.developer.playground.pingid.APIHandlerServlet</servlet-class>
   </servlet>
   
+  <servlet>
+  	<display-name>StatusPollingServlet</display-name>
+  	<servlet-name>StatusPollingServlet</servlet-name>
+  	<servlet-class>com.pingidentity.developer.playground.pingid.StatusPollingServlet</servlet-class>
+  </servlet>
+  
   <servlet-mapping>
   	<servlet-name>PropertiesFileUploadServlet</servlet-name>
   	<url-pattern>/handle-upload-props</url-pattern>
@@ -27,4 +33,8 @@
   	<url-pattern>/api-handler</url-pattern>
   </servlet-mapping>
 
+  <servlet-mapping>
+  	<servlet-name>StatusPollingServlet</servlet-name>
+  	<url-pattern>/status</url-pattern>
+  </servlet-mapping>
 </web-app>
