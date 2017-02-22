@@ -62,7 +62,6 @@
 		</dependency>
 	</dependencies>
 	<build>
-		<finalName>pingid-api-playground.war</finalName>
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -71,42 +70,6 @@
 					<source>1.7</source>
 					<target>1.7</target>
 				</configuration>
-			</plugin>
-			<plugin><!-- don't pack the war -->
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-war-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>default-war</id>
-						<phase>none</phase>
-					</execution>
-					<execution>
-						<id>war-exploded</id>
-						<phase>package</phase>
-						<goals>
-							<goal>exploded</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<artifactId>maven-assembly-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>distro-assembly</id>
-						<phase>package</phase>
-						<goals>
-							<goal>single</goal>
-						</goals>
-						<configuration>
-							<descriptors>
-								<descriptor>assembly.xml</descriptor>
-							</descriptors>
-							<finalName>pingid-api-playground-${project.version}</finalName>
-							<outputDirectory>./target</outputDirectory>
-						</configuration>
-					</execution>
-				</executions>
 			</plugin>
 		</plugins>
 	</build>
