@@ -35,6 +35,7 @@ public class Operation {
 	private String errorMsg;
 	private String uniqueMsgId;
 
+	private String idpUrl = "https://idpxnyl3m.pingidentity.com/pingid";
 	private String orgAlias;
 	private String token;
 	private String useBase64Key;
@@ -86,7 +87,7 @@ public class Operation {
 	public void AddUser(Boolean activateUser) {
 
 		this.name = "AddUser";
-		this.endpoint = "https://idpxnyl3m.pingidentity.com/pingid/rest/4/adduser/do";
+		this.endpoint = idpUrl + "/rest/4/adduser/do";
 		
 		JSONObject reqBody = new JSONObject();
 		reqBody.put("activateUser", activateUser);
@@ -111,7 +112,7 @@ public class Operation {
 	public void EditUser(Boolean activateUser) {
 
 		this.name = "EditUser";
-		this.endpoint = "https://idpxnyl3m.pingidentity.com/pingid/rest/4/edituser/do";
+		this.endpoint = idpUrl + "/rest/4/edituser/do";
 		
 		JSONObject reqBody = new JSONObject();
 		reqBody.put("activateUser", activateUser);
@@ -136,7 +137,7 @@ public class Operation {
 	public void GetUserDetails() {
 
 		this.name = "GetUserDetails";
-		this.endpoint = "https://idpxnyl3m.pingidentity.com/pingid/rest/4/getuserdetails/do";
+		this.endpoint = idpUrl + "/rest/4/getuserdetails/do";
 
 		JSONObject reqBody = new JSONObject();
 		reqBody.put("getSameDeviceUsers", false);
@@ -160,7 +161,7 @@ public class Operation {
 	public void DeleteUser() {
 
 		this.name = "DeleteUser";
-		this.endpoint = "https://idpxnyl3m.pingidentity.com/pingid/rest/4/deleteuser/do";
+		this.endpoint = idpUrl + "/rest/4/deleteuser/do";
 
 		JSONObject reqBody = new JSONObject();
 		reqBody.put("userName", this.user.getUserName());
@@ -177,7 +178,7 @@ public class Operation {
 	public void SuspendUser() {
 
 		this.name = "SuspendUser";
-		this.endpoint = "https://idpxnyl3m.pingidentity.com/pingid/rest/4/suspenduser/do";
+		this.endpoint = idpUrl + "/rest/4/suspenduser/do";
 
 		JSONObject reqBody = new JSONObject();
 		reqBody.put("userName", this.user.getUserName());
@@ -194,7 +195,7 @@ public class Operation {
 	public void ActivateUser() {
 
 		this.name = "ActivateUser";
-		this.endpoint = "https://idpxnyl3m.pingidentity.com/pingid/rest/4/activateuser/do";
+		this.endpoint = idpUrl + "/rest/4/activateuser/do";
 
 		JSONObject reqBody = new JSONObject();
 		reqBody.put("userName", this.user.getUserName());
@@ -211,7 +212,7 @@ public class Operation {
 	public void ToggleUserBypass(long until) {
 
 		this.name = "ToggleUserBypass";
-		this.endpoint = "https://idpxnyl3m.pingidentity.com/pingid/rest/4/userbypass/do";
+		this.endpoint = idpUrl + "/rest/4/userbypass/do";
 
 		JSONObject reqBody = new JSONObject();
 		reqBody.put("userName", this.user.getUserName());
@@ -229,7 +230,7 @@ public class Operation {
 	public void UnpairDevice() {
 
 		this.name = "UnpairDevice";
-		this.endpoint = "https://idpxnyl3m.pingidentity.com/pingid/rest/4/unpairdevice/do";
+		this.endpoint = idpUrl + "/rest/4/unpairdevice/do";
 
 		JSONObject reqBody = new JSONObject();
 		reqBody.put("userName", this.user.getUserName());
@@ -246,7 +247,7 @@ public class Operation {
 	public void GetPairingStatus(String activationCode) {
 
 		this.name = "GetPairingStatus";
-		this.endpoint = "https://idpxnyl3m.pingidentity.com/pingid/rest/4/pairingstatus/do";
+		this.endpoint = idpUrl + "/rest/4/pairingstatus/do";
 
 		JSONObject reqBody = new JSONObject();
 		reqBody.put("activationCode", activationCode);
@@ -264,7 +265,7 @@ public class Operation {
 	public void PairYubiKey(String otp) {
 
 		this.name = "PairYubiKey";
-		this.endpoint = "https://idpxnyl3m.pingidentity.com/pingid/rest/4/pairyubikey/do";
+		this.endpoint = idpUrl + "/rest/4/pairyubikey/do";
 
 		JSONObject reqBody = new JSONObject();
 		reqBody.put("otp", otp);
@@ -282,7 +283,7 @@ public class Operation {
 	public void StartOfflinePairing(OfflinePairingMethod pairingMethod) {
 
 		this.name = "StartOfflinePairing";
-		this.endpoint = "https://idpxnyl3m.pingidentity.com/pingid/rest/4/startofflinepairing/do";
+		this.endpoint = idpUrl + "/rest/4/startofflinepairing/do";
 
 		JSONObject reqBody = new JSONObject();
 		
@@ -311,7 +312,7 @@ public class Operation {
 	public void FinalizeOfflinePairing(String sessionId, String otp) {
 
 		this.name = "FinalizeOfflinePairing";
-		this.endpoint = "https://idpxnyl3m.pingidentity.com/pingid/rest/4/finalizeofflinepairing/do";
+		this.endpoint = idpUrl + "/rest/4/finalizeofflinepairing/do";
 
 		JSONObject reqBody = new JSONObject();
 		reqBody.put("otp", otp);
@@ -329,7 +330,7 @@ public class Operation {
 	public void GetActivationCode() {
 
 		this.name = "GetActivationCode";
-		this.endpoint = "https://idpxnyl3m.pingidentity.com/pingid/rest/4/getactivationcode/do";
+		this.endpoint = idpUrl + "/rest/4/getactivationcode/do";
 
 		JSONObject reqBody = new JSONObject();
 		reqBody.put("userName", this.user.getUserName());
@@ -347,7 +348,7 @@ public class Operation {
 	public void AuthenticateOnline(Application application, String authType) {
 
 		this.name = "AuthenticateOnline";
-		this.endpoint = "https://idpxnyl3m.pingidentity.com/pingid/rest/4/authonline/do";
+		this.endpoint = idpUrl + "/rest/4/authonline/do";
 
 		JSONObject reqBody = new JSONObject();
 		reqBody.put("authType", authType);
@@ -378,7 +379,7 @@ public class Operation {
 	public void AuthenticateOffline(String sessionId, String otp) {
 
 		this.name = "AuthenticateOffline";
-		this.endpoint = "https://idpxnyl3m.pingidentity.com/pingid/rest/4/authoffline/do";
+		this.endpoint = idpUrl + "/rest/4/authoffline/do";
 
 		JSONObject reqBody = new JSONObject();
 		reqBody.put("spAlias", "web");
