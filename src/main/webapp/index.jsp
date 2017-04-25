@@ -336,6 +336,52 @@
 								</form>
         			</div>
         		</div>
+				<div id="create-job" class="panel panel-default">
+					<div class="panel-heading"><a data-toggle="collapse" href="#collapse_createjob">CreateJob</a></div>
+					<div id="collapse_createjob" class="panel-body panel-collapse collapse">
+						<form class="form-inline" action="api-handler" method="POST">
+							<div class="form-group">
+								<label for="select-job-type">Select Job Type:</label>
+								<select name="jobType" class="form-control"
+										id="select-job-type">
+									<option>User_Reports</option>
+								</select>
+								<input type="hidden" name="operation" value="CreateJob">
+								<button type="submit" class="btn btn-default" ${pingid_org_alias != null ? "" : "disabled=\"disabled\""}>Create Job...</button>
+							</div>
+						</form>
+					</div>
+				</div>
+				<div id="get-job-status" class="panel panel-default">
+					<div class="panel-heading"><a data-toggle="collapse" href="#collapse_getjobstatus">GetJobStatus</a></div>
+					<div id="collapse_getjobstatus" class="panel-body panel-collapse collapse">
+						<form class="form-inline" action="api-handler" method="POST">
+							<div class="form-group">
+								<label for="select-pingid-job-token">Enter Job Token:</label>
+								<input type="text" name="jobToken" class="form-control" id="select-pingid-job-token">
+								<input type="hidden" name="operation" value="GetJobStatus">
+								<button type="submit" class="btn btn-default" ${pingid_org_alias != null ? "" : "disabled=\"disabled\""}>Get Job Status...</button>
+							</div>
+						</form>
+					</div>
+				</div>
+				<div id="download-report" class="panel panel-default">
+					<div class="panel-heading"><a data-toggle="collapse" href="#collapse_downloadreport">DownloadUserReport</a></div>
+					<div id="collapse_downloadreport" class="panel-body panel-collapse collapse">
+						<form class="form-inline" action="api-handler" method="POST">
+							<div class="form-group">
+								<label for="select-file-type">Select File Type:</label>
+								<select name="fileType" class="form-control"
+										id="select-file-type">
+									<option>Csv</option>
+									<option>Json</option>
+								</select>
+								<input type="hidden" name="operation" value="DownloadUserReport">
+								<button type="submit" class="btn btn-default" ${pingid_org_alias != null ? "" : "disabled=\"disabled\""}>Download Report...</button>
+							</div>
+						</form>
+					</div>
+				</div>
 	       	</div>
         </div>
         

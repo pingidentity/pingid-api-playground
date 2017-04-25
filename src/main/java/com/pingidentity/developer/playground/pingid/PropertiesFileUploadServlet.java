@@ -1,9 +1,9 @@
 package com.pingidentity.developer.playground.pingid;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.PrintWriter;
-import java.util.Properties;
+import org.apache.commons.fileupload.FileItemIterator;
+import org.apache.commons.fileupload.FileItemStream;
+import org.apache.commons.fileupload.FileUploadException;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -11,13 +11,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
-import org.apache.commons.fileupload.FileItemIterator;
-import org.apache.commons.fileupload.FileItemStream;
-import org.apache.commons.fileupload.FileUploadException;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
-import org.apache.commons.fileupload.util.Streams;
-import org.apache.commons.io.IOUtils;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
 
 
 public class PropertiesFileUploadServlet extends HttpServlet {
@@ -50,7 +46,8 @@ public class PropertiesFileUploadServlet extends HttpServlet {
 							session.setAttribute("pingid_org_alias", props.getProperty("org_alias"));
 							session.setAttribute("pingid_token", props.getProperty("token"));
 							session.setAttribute("pingid_use_base64_key", props.getProperty("use_base64_key"));
-							
+							session.setAttribute("pingid_url", props.getProperty("idp_url"));
+
 							// Set the results of the action to the request attributes
 							request.setAttribute("status", "OK");
 							request.setAttribute("statusMessage", "Successfully imported pingid.properties");

@@ -1,15 +1,5 @@
 package com.pingidentity.developer.pingid;
 
-import java.io.InputStream;
-import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.TimeZone;
-
 import org.apache.commons.io.IOUtils;
 import org.jose4j.base64url.Base64;
 import org.jose4j.jws.AlgorithmIdentifiers;
@@ -19,7 +9,15 @@ import org.jose4j.lang.JoseException;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
-import com.pingidentity.developer.pingid.User;
+import java.io.InputStream;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.TimeZone;
 
 
 public class Operation {
@@ -35,7 +33,7 @@ public class Operation {
 	private String errorMsg;
 	private String uniqueMsgId;
 
-	private String idpUrl = "https://idpxnyl3m.pingidentity.com/pingid";
+	private String idpUrl;
 	private String orgAlias;
 	private String token;
 	private String useBase64Key;
@@ -50,17 +48,15 @@ public class Operation {
 	
 	private final String apiVersion = "4.6";
 	
-	public Operation() {
-	}
-	
-	public Operation(String orgAlias, String token, String useBase64Key) {
+	public Operation(String orgAlias, String token, String useBase64Key, String pingidUrl) {
 		this.orgAlias = orgAlias;
 		this.token = token;
 		this.useBase64Key = useBase64Key;
-		
+		this.idpUrl = pingidUrl;
+
 		this.values = new HashMap<String, Object>();
 	}
-
+	
 	public String getName() { return name; }
 	public String getEndpoint() { return endpoint; }
 	public String getRequestToken() { return requestToken; }
@@ -258,7 +254,7 @@ public class Operation {
 		sendRequest();
 		JSONObject response = parseResponse();
 		values.clear();
-		values.put("pairingStatus", (PairingStatus)PairingStatus.valueOf((String)response.get("pairingStatus")));
+		values.put("pairingStatus", (PairingStatus) PairingStatus.valueOf((String)response.get("pairingStatus")));
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -394,7 +390,53 @@ public class Operation {
 		parseResponse();
 		values.clear();
 	}
-	
+
+	@SuppressWarnings("unchecked")
+	public void createJob(JobType jobType) {
+		this.name = "CreateJob";
+		this.endpoint = idpUrl + "/rest/4/createjob/do";
+
+		JSONObject reqBody = new JSONObject();
+		reqBody.put("jobType", jobType.toString());
+		reqBody.put("clientData", this.clientData);
+
+		this.requestToken = buildRequestToken(reqBody);
+
+		sendRequest();
+		parseResponse();
+		values.clear();
+	}
+
+	@SuppressWarnings("unchecked")
+	public void getJobStatus(String jobToken) {
+		this.name = "GetJobStatus";
+		this.endpoint = idpUrl + "/rest/4/getjobstatus/do";
+
+		JSONObject reqBody = new JSONObject();
+		reqBody.put("jobToken", jobToken);
+		reqBody.put("clientData", this.clientData);
+
+		this.requestToken = buildRequestToken(reqBody);
+
+		sendRequest();
+		parseResponse();
+		values.clear();
+	}
+
+	@SuppressWarnings("unchecked")
+	public InputStream downloadUserReport(FileType fileType) {
+		this.name = "DownloadUserReport";
+		this.endpoint = idpUrl + "/rest/4/getorgreport/do";
+
+		JSONObject reqBody = new JSONObject();
+		reqBody.put("fileType", fileType.toString());
+		reqBody.put("clientData", this.clientData);
+
+		this.requestToken = buildRequestToken(reqBody);
+
+		return sendRequestAndGetInputStream();
+	}
+
 	//private methods
 	@SuppressWarnings("unchecked")
 	private String buildRequestToken(JSONObject requestBody) {
@@ -449,6 +491,46 @@ public class Operation {
 		PingIDDateFormat.setTimeZone(TimeZone.getTimeZone("America/Denver"));
 		
 		return PingIDDateFormat.format(currentDate);
+	}
+
+	private InputStream sendRequestAndGetInputStream() {
+		try {
+			URL restUrl = new URL(this.getEndpoint());
+			HttpURLConnection urlConnection = (HttpURLConnection)restUrl.openConnection();
+			urlConnection.setRequestMethod("POST");
+			urlConnection.addRequestProperty("Content-Type", "application/json");
+			urlConnection.addRequestProperty("Accept", "application/octet-stream");
+
+			urlConnection.setDoOutput(true);
+			OutputStreamWriter outputStreamWriter = new OutputStreamWriter(urlConnection.getOutputStream(), "UTF-8");
+			outputStreamWriter.write(this.getRequestToken());
+			outputStreamWriter.flush();
+			outputStreamWriter.close();
+
+			int responseCode = urlConnection.getResponseCode();
+			this.responseCode = responseCode;
+
+			if (responseCode == 200) {
+				InputStream is = urlConnection.getInputStream();
+				this.wasSuccessful = true;
+
+				return is;
+			} else {
+
+				String encoding = urlConnection.getContentEncoding();
+				InputStream is = urlConnection.getErrorStream();
+				String stringJWS = IOUtils.toString(is, encoding);
+				this.responseToken = stringJWS;
+				this.wasSuccessful = false;
+
+				urlConnection.disconnect();
+			}
+		} catch (Exception ex) {
+			this.responseCode = 500;
+			this.wasSuccessful = false;
+		}
+
+		return null;
 	}
 	
 	private void sendRequest() {

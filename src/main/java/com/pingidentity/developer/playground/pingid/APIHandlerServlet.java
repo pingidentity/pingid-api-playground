@@ -1,6 +1,14 @@
 package com.pingidentity.developer.playground.pingid;
 
-import java.io.IOException;
+import com.cedarsoftware.util.io.JsonWriter;
+import com.pingidentity.developer.pingid.Application;
+import com.pingidentity.developer.pingid.FileType;
+import com.pingidentity.developer.pingid.JobType;
+import com.pingidentity.developer.pingid.OfflinePairingMethod;
+import com.pingidentity.developer.pingid.Operation;
+import com.pingidentity.developer.pingid.User;
+import org.apache.commons.io.IOUtils;
+import org.jose4j.base64url.Base64;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -8,14 +16,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
-import org.jose4j.base64url.Base64;
-
-import com.cedarsoftware.util.io.JsonWriter;
-import com.pingidentity.developer.pingid.Application;
-import com.pingidentity.developer.pingid.OfflinePairingMethod;
-import com.pingidentity.developer.pingid.User;
-import com.pingidentity.developer.pingid.Operation;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 public class APIHandlerServlet extends HttpServlet {
 
@@ -25,7 +28,7 @@ public class APIHandlerServlet extends HttpServlet {
 		String targetUsername = request.getParameter("username");
 		HttpSession session = request.getSession(false);
 		
-		Operation operation = new Operation((String)session.getAttribute("pingid_org_alias"), (String)session.getAttribute("pingid_token"), (String)session.getAttribute("pingid_use_base64_key"));;
+		Operation operation = new Operation((String)session.getAttribute("pingid_org_alias"), (String)session.getAttribute("pingid_token"), (String)session.getAttribute("pingid_use_base64_key"), (String)session.getAttribute("pingid_url"));
 		operation.setTargetUser(targetUsername);
 
 		switch (requestedOperation) {
@@ -141,7 +144,27 @@ public class APIHandlerServlet extends HttpServlet {
 		case "UnpairDevice":
 			operation.UnpairDevice();
 			break;
-			
+
+		case "CreateJob":
+			JobType jobType = JobType.fromString(request.getParameter("jobType"));
+			operation.createJob(jobType);
+			break;
+
+		case "GetJobStatus":
+			String jobToken = request.getParameter("jobToken");
+			operation.getJobStatus(jobToken);
+			break;
+
+		case "DownloadUserReport":
+			FileType fileType = FileType.fromString(request.getParameter("fileType"));
+			String downloadFileName = String.format("%s.%s", "Report", fileType.toString().toLowerCase());
+			response.setContentType("application/octet-stream");
+			response.setHeader("Content-Disposition", "attachment;filename=" + downloadFileName);
+			OutputStream os = response.getOutputStream();
+			InputStream is = operation.downloadUserReport(fileType);
+			IOUtils.copy(is, os);
+			return;
+
 		default:
 			request.setAttribute("status", "danger");
 			request.setAttribute("statusDescription", "Operation Not Implemented");
