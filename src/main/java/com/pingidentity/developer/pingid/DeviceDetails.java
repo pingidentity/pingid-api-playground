@@ -43,7 +43,7 @@ public class DeviceDetails {
 			appVersion = (deviceDetailsJSON.get("appVersion") != null ? (String)deviceDetailsJSON.get("appVersion") : "");
 			availableClaimedSms = (deviceDetailsJSON.get("availableClaimedSms") != null ? (long)deviceDetailsJSON.get("availableClaimedSms") : 0);
 			availableNotClaimedSms = (deviceDetailsJSON.get("availableNotClaimedSms") != null ? (long)deviceDetailsJSON.get("availableNotClaimedSms") : 0);
-			countryCode = (deviceDetailsJSON.get("countryCode") != null ? (long)deviceDetailsJSON.get("countryCode") : 0);
+			countryCode = (deviceDetailsJSON.get("countryCode") != null ? Long.valueOf(deviceDetailsJSON.get("countryCode").toString()) : 0);
 			email = (String)deviceDetailsJSON.get("email");
 			enrollment = parseDate((String)deviceDetailsJSON.get("enrollment"));
 			hasWatch = (Boolean)deviceDetailsJSON.get("hasWatch");
