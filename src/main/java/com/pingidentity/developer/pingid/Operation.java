@@ -354,7 +354,7 @@ public class Operation {
 		
 		JSONObject formParameters = new JSONObject();
 		formParameters.put("sp_name", application.getName());
-		if (application.getLogoUrl() != null || !application.getLogoUrl().isEmpty()) {
+		if (application.getLogoUrl() != null && !application.getLogoUrl().isEmpty()) {
 			formParameters.put("sp_logo", application.getLogoUrl());
 		}
 
