@@ -450,7 +450,7 @@ public class Operation {
 		JsonWebSignature jws = new JsonWebSignature();
 
 		jws.setAlgorithmHeaderValue(AlgorithmIdentifiers.HMAC_SHA256);
-		jws.setHeader("org_alias", this.orgAlias);
+		jws.setHeader("orgAlias", this.orgAlias);
 		jws.setHeader("token", this.token);
 		
 		jws.setPayload(payload.toJSONString());
