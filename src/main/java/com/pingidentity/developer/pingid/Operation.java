@@ -46,7 +46,7 @@ public class Operation {
 	private String clientData;
 	private User user;
 	
-	private final String apiVersion = "4.6";
+	private final String apiVersion = "4.9";
 	
 	public Operation(String orgAlias, String token, String useBase64Key, String pingidUrl) {
 		this.orgAlias = orgAlias;
